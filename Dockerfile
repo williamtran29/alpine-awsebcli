@@ -1,11 +1,13 @@
 FROM alpine:3.6
-RUN apk -v --update add \
-        python-dev \
-        py-pip \
-        groff \
+RUN apk -v --no-cache add \
+        git \
         less \
-        mailcap \
+        openssh-client \
+        py-pip \
+        python \
         && \
-    pip install --upgrade awscli awsebcli s3cmd python-magic && \
-    apk -v --purge del py-pip && \
-    rm /var/cache/apk/*
+    pip install --upgrade awsebcli
+VOLUME /root/.aws
+VOLUME /project
+WORKDIR /project
+ENTRYPOINT ["eb"]
